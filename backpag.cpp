@@ -1,3 +1,4 @@
+/*It_mumu*/
 #include <stdio.h>
 #define NUM 100  //物品的数量上限
 #define CAP 100  //背包容量上限
