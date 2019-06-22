@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DID Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sz.mapper.UserDetailMapper">
+<select id="queryByUserId" resultType="com.sz.pojo.UserDetail">
+    select *
+    from user_detail
+    where ud_id = #{id}
+</select>
+</mapper>
