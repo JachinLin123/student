@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DID Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sz.mapper.AdressesMapper">
+
+    <!--开启二级缓存标签-->
+    <cache/>
+
+
+
+
+
+
+    <!--将最常用的列抽取为一个SQL片段，目的是被别人引用-->
+    <sql id="baseColumn">
+country,state,street,zip,city
+    </sql>
+
+    <!--根据传入的对象动态的修改-->
+    <update id="update" parameterType="com.sz.pojo.Addresses">
+        update addresses
+
+        <set>
+            <if test="city !=null and city !=''">
+                city = #{city},
+            </if>
+
+            <if test="country !=null and country !=''">
+                country = #{country},
+            </if>
+
+            <if test="street !=null and street !=''">
+                street = #{street},
+            </if>
+
+            <if test="state !=null and state !=''">
+                street = #{street},
+            </if>
+
+            <if test="zip !=null and zip !=''">
+                zip = #{zip}
+            </if>
+        </set>
+        <where>
+            ADDR_ID = #{addrId}
+        </where>
+    </update>
+
+    <select id="queryByAdrId" resultType="com.sz.pojo.Addresses">
+       select * from addresses where addr_id= #{id}
+   </select>
+
+    <select id="queryByCountryCity" resultType="com.sz.pojo.Addresses">
+       select * from addresses
+       <where>
+       <if test="city !=null and city !=''">
+           and city = #{city}
+       </if>
+
+       <if test="country !=null">
+           and
+           COUNTRY=#{country}
+       </if>
+       </where>
+   </select>
+
+    <!--参数类型不写也行-->
+    <!--choose只会选一个-->
+    <select id="query" resultType="com.sz.pojo.Addresses">
+        select * from addresses
+        <where>
+            <choose>
+                <when test="country !=null">
+                    and country = #{country}
+                </when>
+                <when test="state !=null">
+                   and state = #{state}
+                </when>
+                <otherwise>
+                    and city = #{city}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+    <select id="queryTrim" resultType="com.sz.pojo.Addresses">
+        select * from addresses
+        <trim prefix="where" suffixOverrides="and">
+            <if test="city !=null and city !=''">
+                city = #{city} and
+            </if>
+
+            <if test="country !=null and country !=''">
+                country = #{country} and
+            </if>
+
+            <if test="street !=null and street !=''">
+                street = #{street} and
+            </if>
+
+            <if test="state !=null and state !=''">
+                street = #{street} and
+            </if>
+
+            <if test="zip !=null and zip !=''">
+                zip = #{zip} and
+            </if>
+        </trim>
+    </select>
+
+<!--foreach
+collection 描述集合list set map
+open 是后面的SQL语句的拼接以什么开头
+close以什么结尾
+item数据项的一个代号-->
+    <select id="queryByIds" resultType="com.sz.pojo.Addresses">
+
+        select * from addresses
+        <where>
+            addr_id in
+            <foreach collection="list" open="(" close=")" item="item" separator="," index="index">
+                #{item}+ #{index}
+            </foreach>
+        </where>
+    </select>
+
+<!--#不支持拼接%-->
+    <select id="queryLike" resultType="com.sz.pojo.Addresses">
+        <bind name="_city" value="'%'+city+'%'"/>
+         select * from addresses
+         where
+         city like #{_city}
+    </select>
+
+    <select id="listAll" resultType="com.sz.pojo.Addresses">
+        select
+        <include refid="baseColumn"/>
+            from addresses
+    </select>
+
+
+</mapper>
