@@ -1,4 +1,5 @@
 #include<iostream>
+#include <cstdio>
 #include<algorithm>
 using namespace std;
 
@@ -105,8 +106,33 @@ void AdjustHeap(int* h, int node, int len)  //----node为需要调整的结点�
          child=2*index+1;
      }
 }
+
+
+int quick_select(int a[], int l, int r, int k) {
+	int p = rand() % (r - l + 1) + l;
+	int x = a[p];
+	{int t = a[p]; a[p] = a[r]; a[r] = t;}
+	int i = l, j = r;
+	while(i < j) {
+		while(i < j && a[i] < x) i++;
+		if(i < j) {
+			a[j] = a[i];
+			j--;
+		}
+		while(i < j && a[j] > x) j--;
+		if(i < j) {
+			a[i] = a[j];
+			i++;
+		}
+	}
+	a[i] = x;
+	p = i;
+	if(i - l + 1 == k) return a[i];
+	if(i - l + 1 < k) return quick_select(a, i+1, r, k - (i-l+1)); //填空
+	else return quick_select(a, l, i - 1, k);
+}
  
- 
+
 //====建堆=====
 void MakeHeap(int* h, int len)
 {
@@ -187,10 +213,12 @@ int main()
     //bucket_sort(a, 10);
     //SelectionSort(a, 10);
     //HeapSort(a, 10);
-    for (int i = 0; i < 10; i++)
+    printf("%d\n", quick_select(a, 0, 9, 2));
+    //cout << quick_select(a, 0, 9, 2);
+    /*for (int i = 0; i < 10; i++)
     {
         cout << a[i] << endl;
-    }
+    }*/
     
     return 0;
 }
