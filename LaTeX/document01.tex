@@ -1,0 +1,85 @@
+% 导言区
+\documentclass[12pt]{article} %book, report, letter, ctexart
+
+\usepackage{ctex}	% 处理中文
+
+\newcommand{\degree}{^\circ}	%定义新命令
+\title{\heiti first}
+\author{\kaishu JachinLin}	%一个字体五种属性
+\date{\today}
+
+% 正文区(文稿区)
+\begin{document}
+	\maketitle
+	hello!	% 加个空行就可以另起一行
+
+	$ f(x)=3x^2 + x - 1 $.
+	$$ f(x)=3x^2 + x - 1 $$.
+	
+	{\par}
+	
+	$ C = 90\degree  $.
+	\begin{equation}	%equation(用于产生带编号的行间公式)
+		AB^2 = BC^2 + AC^2.
+	\end{equation}
+	
+	{\par}
+	% 字体设置 (罗马字体、无寸线字体、打字机字体)
+	\textrm{Roman Family}
+	\textsf{Sans Serif Family}
+	\texttt{Typewriter Family}
+	
+	{\rmfamily Roman Family}
+	{\sffamily Sans Serif Family}
+	{\ttfamily Typewriter Family}%大括号进行分组
+	
+	% 字体系列设置 (粗细、宽度)
+	\textmd{Medium Series} \textbf{Boldface Series}
+	{\mdseries Medium Series} {\bfseries Boldface Series}
+	
+	% 字体形状 (直立、斜体、伪斜体、小型大写)
+	\textup{Upright Shape} \textit{Italic Shape}
+	\textsl{Slanted Shape} \textsc{Small Caps Shape}
+	
+	{\upshape Upright Shape} {\itshape Italic Shape}
+	{\slshape Slanted Shape} {\scshape Small caps Shape}
+	
+	% 中文字体
+	{\songti 宋体} \quad {\heiti 黑体} \quad 
+	{\fangsong 仿宋} \quad {\kaishu 楷书}
+	中文字体的\textbf{粗体}与\textit{斜体}
+	
+	% 字体大小
+	{\tiny hello}\\
+	{\scriptsize hello}\\
+	{\footnotesize hello}\\
+	{\small hello}\\
+	{\normalsize hello}\\
+	{\large hello}\\
+	{\Large hello}\\
+	{\LARGE hello}\\
+	{\huge hello}\\
+	{\Huge hello}\\
+	
+	% z中文字号设置
+	\zihao {5}
+	
+	%\myfont
+	
+	{\par}
+	
+	\tableofcontents
+	
+	\section{引言}
+	\section{实验方法}
+	\section{实验结果}
+	\subsection{过程}
+	\subsection{结论}
+	\section{数据}
+	
+	
+	
+	
+	
+	
+\end{document}

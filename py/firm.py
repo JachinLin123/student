@@ -59,7 +59,7 @@ def save2File(data):
         f.write(data)
 
 def run():
-    for n in range(1, 1):
+    for n in range(1, 20):
 
         text = getOnePage(n)
         items = parse(text)

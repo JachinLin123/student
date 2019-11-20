@@ -3,8 +3,11 @@ import scrapy
 from myfirstspider.items import MyfirstspiderItem
 
 class ItcastSpider(scrapy.Spider):
+    # 爬虫名
     name = 'itcast'
+    # 爬虫范围， 允许爬虫在这个范围内进行爬取
     allowed_domains = ['itcast.cn']
+    # 
     start_urls = ['http://itcast.cn/channel/teacher.shtml']
 
     def parse(self, response):
