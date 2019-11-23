@@ -213,12 +213,13 @@ int main()
     //bucket_sort(a, 10);
     //SelectionSort(a, 10);
     //HeapSort(a, 10);
-    printf("%d\n", quick_select(a, 0, 9, 2));
+    //printf("%d\n", quick_select(a, 0, 9, 2));
     //cout << quick_select(a, 0, 9, 2);
-    /*for (int i = 0; i < 10; i++)
+    sort(a, a + 10);
+    for (int i = 0; i < 10; i++)
     {
         cout << a[i] << endl;
-    }*/
+    }
     
     return 0;
 }
