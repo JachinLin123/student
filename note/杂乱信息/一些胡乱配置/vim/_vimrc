@@ -1,0 +1,425 @@
+" Vim with all enhancements
+source $VIMRUNTIME/vimrc_example.vim
+
+" Use the internal diff if available.
+" Otherwise use the special 'diffexpr' for Windows.
+if &diffopt !~# 'internal'
+  set diffexpr=MyDiff()
+endif
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg1 = substitute(arg1, '!', '\!', 'g')
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg2 = substitute(arg2, '!', '\!', 'g')
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let arg3 = substitute(arg3, '!', '\!', 'g')
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      if empty(&shellxquote)
+        let l:shxq_sav = ''
+        set shellxquote&
+      endif
+      let cmd = '"' . $VIMRUNTIME . '\diff"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  let cmd = substitute(cmd, '!', '\!', 'g')
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+  if exists('l:shxq_sav')
+    let &shellxquote=l:shxq_sav
+  endif
+endfunction
+
+if has('unix')
+else
+  set clipboard+=unnamed
+endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 通用设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = " "      " 定义<leader>键
+set nocompatible         " 设置不兼容原始vi模式
+filetype on              " 设置开启文件类型侦测
+filetype indent on		 " 
+filetype plugin on       " 设置加载对应文件类型的插件
+set noeb                 " 关闭错误的提示
+set mouse=a				 " 允许鼠标
+syntax enable            " 开启语法高亮功能
+syntax on                " 自动语法高亮
+set t_Co=256             " 开启256色支持
+set cmdheight=2          " 设置命令行的高度
+set showcmd              " select模式下显示选中的行数
+set ruler                " 总是显示光标位置
+set laststatus=2         " 总是显示状态栏
+set number               " 开启行号显示
+set norelativenumber	 " 相对位置
+set cursorcolumn		 " 高亮当前列
+set cursorline           " 高亮显示当前行
+set whichwrap+=<,>,h,l   " 设置光标键跨行
+set ttimeoutlen=0        " 设置<ESC>键响应时间
+set virtualedit=block,onemore   " 允许光标出现在最后一个字符的后面
+let &t_ut=''
+set list
+set tw=0
+set indentexpr=
+set foldmethod=indent
+set foldlevel=99
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+set autochdir
+set gcr=a:block-blinkon0	" 禁止光标闪烁
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 代码缩进和排版
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set autoindent           " 设置自动缩进
+set cindent              " 设置使用C/C++语言的自动缩进方式
+set cinoptions=g0,:0,N-s,(0    " 设置C/C++语言的具体缩进方式
+set smartindent          " 智能的选择对其方式
+filetype indent on       " 自适应不同语言的智能缩进
+set expandtab            " 将制表符扩展为空格
+set tabstop=4            " 设置编辑时制表符占用空格数
+set shiftwidth=4         " 设置格式化时制表符占用空格数
+set softtabstop=4        " 设置4个空格为制表符
+set smarttab             " 在行和段开始处使用制表符
+set nowrap               " 禁止折行
+set backspace=2          " 使用回车键正常处理indent,eol,start等
+set sidescroll=10        " 设置向右滚动字符数
+set nofoldenable         " 禁用折叠代码
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 代码补全
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set wildmenu             " vim自身命名行模式智能补全
+set completeopt-=preview " 补全时不显示窗口，只显示补全列表
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 搜索设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set hlsearch            " 高亮显示搜索结果
+set incsearch           " 开启实时搜索功能
+set ignorecase          " 搜索时大小写不敏感
+set smartcase			" 智能检测字母
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 缓存设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nobackup            " 设置不备份
+set noswapfile          " 禁止生成临时文件
+set autoread            " 文件在vim之外修改过，自动重新读入
+set autowrite           " 设置自动保存
+set confirm             " 在处理未保存或只读文件的时候，弹出确认
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 编码设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+set termencoding=utf-8
+set encoding=utf8
+set fileencodings=utf8,ucs-bom,gbk,cp936,gb2312,gb18030
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" gvim/macvim设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+    let system = system('uname -s')
+    if system == "Darwin\n"
+        set guifont=Bitstream_Vera_Sans_Mono:h12:cANSI " 设置字体
+    else
+        set guifont=Bitstream_Vera_Sans_Mono:h12:cANSI      " 设置字体
+    endif
+    set guioptions-=m           " 隐藏菜单栏
+    set guioptions-=T           " 隐藏工具栏
+    set guioptions-=L           " 隐藏左侧滚动条
+    set guioptions-=r           " 隐藏右侧滚动条
+    set guioptions-=b           " 隐藏底部滚动条
+    set showtabline=0           " 隐藏Tab栏
+    set guicursor=n-v-c:ver5    " 设置光标为竖线
+	set guifont=Bitstream_Vera_Sans_Mono:h12:cANSI
+endif
+"autocmd BufWritePost $VIM/_vimrc source $$VIM/_vimrc	" 让配置变更立即生效
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif	" 打开文件回到最后一次的位置
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 映射一些键位
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap = nzz
+noremap - Nzz
+
+inoremap jj <Esc>
+noremap n h
+noremap u k
+noremap e j
+noremap i l
+noremap U 5k
+noremap E 5j
+noremap N 7h
+noremap I 7l
+" N key: go to the start of the line
+noremap <C-n> 0
+" I key: go to the end of the line
+noremap <C-i> $
+
+noremap k i
+noremap K I
+noremap l u
+
+map s <nop>
+map S :w<CR>
+map Q :q<CR>
+map R :source $VIM/_vimrc<CR>
+map ; :
+
+map si :set splitright<CR>:vsplit<CR>
+map sn :set nosplitright<CR>:vsplit<CR>
+map su :set nosplitbelow<CR>:split<CR>
+map se :set splitbelow<CR>:split<CR>
+
+map <LEADER>i <C-w>l
+map <LEADER>u <C-w>k
+map <LEADER>n <C-w>h
+map <LEADER>e <C-w>j
+
+map <up> :res +5<CR>
+map <down> :res -5<CR>
+map <left> :vertical resize-5<CR>
+map <right> :vertical resize+5<CR>
+
+map tu :tabe<CR>
+map tn :-tabnext<CR>
+map ti :+tabnext<CR>
+
+map sv <C-w>t<C-w>H
+map sh <C-w>t<C-w>K
+
+
+" -----------------------------------------------------------------------------
+"  < Vundle 插件配置 >
+" -----------------------------------------------------------------------------
+
+filetype off
+"插件管理
+set rtp+=$VIM/vimfiles/bundle/Vundle.vim/
+call vundle#begin()
+"let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+"my bundle plugin
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+Plugin 'vim-scripts/phd'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'derekwyatt/vim-fswitch'
+Plugin 'kshenoy/vim-signature'
+Plugin 'vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines'
+Plugin 'majutsushi/tagbar'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-scripts/DfrankUtil'
+Plugin 'vim-scripts/vimprj'
+Plugin 'dyng/ctrlsf.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'vim-scripts/DrawIt'
+Plugin 'SirVer/ultisnips'
+Plugin 'derekwyatt/vim-protodef'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'gcmt/wildfire.vim'
+Plugin 'sjl/gundo.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'suan/vim-instant-markdown'
+Plugin 'lilydjwg/fcitx.vim'
+Plugin 'Yggdroot/LeaderF'
+Plugin 'jiangmiao/auto-pairs'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-scripts/indentpython.vim'
+" Markdown
+Plugin 'iamcco/mathjax-support-for-mkdp'
+Plugin 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
+Plugin 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
+Plugin 'vimwiki/vimwiki'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+" Dependencies
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'kana/vim-textobj-user'
+Plugin 'fadein/vim-FIGlet'
+Plugin 'tpope/vim-sensible'
+Plugin 'junegunn/seoul256.vim'
+
+call vundle#end()
+
+filetype plugin indent on
+
+" -----------------------------------------------------------------------------
+"   配色方案
+" -----------------------------------------------------------------------------
+set background=dark
+colorscheme solarized
+"colorscheme molokai
+"colorscheme phd
+let g:Powerline_colorscheme='solarized256'	" 设置状态栏主题风格
+"let g:onedark_termcolors=256
+"colorscheme onedark
+
+" airline
+let g:airline_theme="onedark"
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '✹'
+let g:airline_left_alt_sep = '✹'
+let g:airline_right_sep = '✹'
+let g:airline_right_alt_sep = '✹'
+
+" -----------------------------------------------------------------------------
+"   将外部命令 wmctrl 控制窗口最大化的命令行参数封装成一个 vim 的函数
+" -----------------------------------------------------------------------------
+fun! ToggleFullscreen()
+	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+endf
+" 全屏开/关快捷键
+map <silent> <F11> :call ToggleFullscreen()<CR>
+"" 启动 vim 时自动全屏
+"autocmd VimEnter * call ToggleFullscreen()
+
+
+" 在终端启动vim时，共享NERDTree
+let g:nerdtree_tabs_open_on_console_startup=1
+
+" 显示书签列表
+let NERDTreeShowBookmarks=1
+
+"set pythonthreedll=E:\Users\Administrator\AppData\Local\Programs\Python\Python37\python37.dll
+
+" 缩进可视化插件 Indent Guides
+" 随 vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+" 快捷键 i 开/关缩进可视化
+nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+
+
+
+" LeaderF
+nnoremap <leader>f :LeaderfFile ~<cr>
+let g:Lf_WildIgnore = {
+            \ 'dir': ['.svn','.git','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh'],
+            \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+            \}
+let g:Lf_UseCache = 0
+
+
+" ===
+" === MarkdownPreview
+" ===
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 0
+let g:mkdp_command_for_global = 0
+let g:mkdp_open_to_the_world = 0
+let g:mkdp_open_ip = ''
+let g:mkdp_browser = 'chrome'
+let g:mkdp_echo_preview_url = 0
+let g:mkdp_browserfunc = ''
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1
+    \ }
+let g:mkdp_markdown_css = ''
+let g:mkdp_highlight_css = ''
+let g:mkdp_port = ''
+let g:mkdp_page_title = '「${name}」'
+
+"
+nmap <silent> <F8> <Plugin>MarkdownPreview        " for normal mode
+imap <silent> <F8> <Plugin>MarkdownPreview        " for insert mode
+nmap <silent> <F9> <Plugin>StopMarkdownPreview    " for normal mode
+imap <silent> <F9> <Plugin>StopMarkdownPreview    " for insert mode
+
+
+" ===
+" === vim-table-mode
+" ===
+map <LEADER>tm :TableModeToggle<CR>
+
+
+
+" ===
+" === vim-signiture
+" ===
+let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "dm-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "dm/",
+        \ 'PurgeMarkers'       :  "dm?",
+        \ 'GotoNextLineAlpha'  :  "m<LEADER>",
+        \ 'GotoPrevLineAlpha'  :  "",
+        \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
+        \ 'GotoPrevSpotAlpha'  :  "",
+        \ 'GotoNextLineByPos'  :  "",
+        \ 'GotoPrevLineByPos'  :  "",
+        \ 'GotoNextSpotByPos'  :  "mn",
+        \ 'GotoPrevSpotByPos'  :  "mp",
+        \ 'GotoNextMarker'     :  "",
+        \ 'GotoPrevMarker'     :  "",
+        \ 'GotoNextMarkerAny'  :  "",
+        \ 'GotoPrevMarkerAny'  :  "",
+        \ 'ListLocalMarks'     :  "m/",
+        \ 'ListLocalMarkers'   :  "m?"
+        \ }
+
+
+" ===
+" === NERDTree
+" ===
+map tt :NERDTreeToggle<CR>
+let NERDTreeMapOpenExpl = ""
+let NERDTreeMapUpdir = ""
+let NERDTreeMapUpdirKeepOpen = "l"
+let NERDTreeMapOpenSplit = ""
+let NERDTreeOpenVSplit = ""
+let NERDTreeMapActivateNode = "i"
+let NERDTreeMapOpenInTab = "o"
+let NERDTreeMapPreview = ""
+let NERDTreeMapCloseDir = "n"
+let NERDTreeMapChangeRoot = "y"
+
+" ===
+" === Undotree
+" ===
+let g:undotree_DiffAutoOpen = 0
+map L :UndotreeToggle<CR>
+
+
