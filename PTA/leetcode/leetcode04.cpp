@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <iostream>
 #include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -50,6 +51,8 @@ public:
 int main()
 {
     Solution s;
-    
+    vector<int> nums1 = {1, 2, 3};
+    vector<int> nums2 = {4, 5, 6};
+    cout << s.findMedianSortedArrays(nums1, nums2) << endl;
     return 0;
 }
