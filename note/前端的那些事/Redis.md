@@ -179,8 +179,47 @@
         除了keys:O(n),其他都是O(1)
         ```
     * 数据结构和内部编码
+
+    ![redis0011](images/Redis数据结构与内部编码.png)
+    ![redis002](images/Redis数据结构与内部编码02.png)
+    
     * 单线程架构
+        ```
+        set-set-get-del-get==redis
+
+        why it so qucik!
+        # 1. 纯内存
+        # 2. 非阻塞IO
+        # 3. 避免线程切换和竞争
+        ### 注意事项
+        1. 一次只运行一条命令
+        2. 拒绝长命令
+        3. 其实不是单线程
+            fysnc file descriptor
+            close file descriptor
+        ```
 * 字符串类型
+    * 结构和命令
+
+    ![redis003](images/字符串类型001.png)
+    
+ ```python
+    场景：
+    1.缓存
+    2.计数器
+    3.分布式锁
+    3.等等
+    incr key #自增一
+    decr key #减一
+    incrby key
+    decrby key
+    incr userid:pageview(单线程，无竞争)
+
+```
+
+    * 快速实战
+    * 内部编码
+    * 查缺补漏
 * 哈希类型
 * 列表类型
 * 集合类型
