@@ -198,12 +198,14 @@
             fysnc file descriptor
             close file descriptor
         ```
-* 字符串类型
-    * 结构和命令
+
+#### 字符串类型
+
+* 结构和命令
 
     ![redis003](images/字符串类型001.png)
     
- ```python
+```python
     场景：
     1.缓存
     2.计数器
@@ -217,13 +219,62 @@
 
 ```
 
-    * 快速实战
-    * 内部编码
-    * 查缺补漏
-* 哈希类型
-* 列表类型
-* 集合类型
-* 有序集合
+* 快速实战
+
+![redis004](images/字符串使用.png)
+
+```python
+
+    mget和mset批量进行操作
+    getset key newvalue #set key newvalue并返回旧的value
+    append key value #将value追加到旧的value
+    strlen key #返回字符串的长度(注意中文)
+
+    incrbyfloat key 3.5  #增加key对应的值为3.5
+    getrange key start end #获取字符串指定下标的值
+    setrange key index value #设置指定下标所有对应的值
+
+```
+
+* 内部编码
+* 查缺补漏
+
+    ![string总结](images/字符串总结.png)
+----
+
+#### 哈希类型
+
+* 特点
+
+![hash01](images/hash结构.png)
+
+* 重要API
+
+```python
+其实可以理解为一张表的结构
+hget key filed # 获取hash key 对应的field的value
+hset key field value # 设置hash key 对应field的value
+hdel key field # 删除hash key 对应field的value
+hexists key field # 判断hash  key 是否有field
+hlen key # 获取hash key field的数量
+hmget
+hmset
+
+hgettall key # 返回hash key对应所有的field和value
+hvals key #返回hash key 对应所有field的value
+hkeys key # 返回hash key对应所有field
+```
+
+* hash vs string
+![string实现用户](images/String实现用户.png)
+![hash实现用户](images/hash实现用户.png)
+![对比](images/用户信息存储管理.png)
+
+* 查缺补漏
+
+#### 列表类型
+#### 集合类型
+#### 有序集合
 
 
 ### Redis客户端使用
