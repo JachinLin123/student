@@ -273,13 +273,153 @@ hkeys key # 返回hash key对应所有field
 * 查缺补漏
 
 #### 列表类型
-#### 集合类型
-#### 有序集合
+* 特点
+    ```
+    有序
+    重复
+    ```
 
+
+* 重要API
+    ```python
+    rpush key value1 value2 ... #从列表右端插入值(1-N个)
+    lpush key value1 value2... # 从列表左端插入值
+    linsert key before|after value newvalue
+    lpop key
+    rpop key
+    lrem key count value
+    ltrim #按照索引范围修剪列表
+    lrange key start end(include end) # 获取指定范围的值
+    lindex key
+    llen key
+    lset key index newvalue
+    blpop key timeout #lpop阻塞版本，timeout是阻塞超时间，timeout=0为永远不阻塞
+    tips
+
+    ```
+![list001](images/list002.png)
+
+* 实战
+* 查缺补漏
+
+
+#### 集合类型
+
+* 特点
+
+![set001](images/set001.png)
+```
+无序
+无重复元素
+集合间
+```
+* 重要API
+    ```python
+    scard user:1:follow = 4 #计算集合大小
+    sismember user:1:follow it = 1(存在) #判断it是否在集合中
+    srandmember user:1:follow count = his #从集合中随机挑选count个元素
+    spop user:1:follow = sports #从集合中随机弹出一个元素
+
+    ```
+![set002](images/set002.png)
+
+#### 有序集合
+* 特点
+![有序集合](images/有序集合结构.png)
+
+* 重要API
+    ```
+    zadd
+    zrem
+    zscore
+    zincrby
+    zcard
+
+    ```
 
 ### Redis客户端使用
 
 ### 瑞士军刀Redis
+#### 慢查询
+* 生命周期
+
+![man](images/慢查询生命周期.png)
+
+* 两个配置
+
+![peizhi](images/两个配置.png)
+
+```
+支持动态配置
+slowlog get[n]
+slowlog-max-len不要设置过大，默认10ms，1ms
+slowlog-log-slower-than不要设置过小
+```
+
+#### pipeline
+* 什么是流水线
+
+![pipeline](images/pipeline.png)
+
+* 客户端实现
+* 与原始操作对比
+    ```
+    非原子
+    ```
+* 使用建议
+    ```
+    注意数据量
+    
+    ```
+
+#### 发布订阅
+* 角色
+    ```
+    发布者
+    订阅者
+    频道
+    ```
+![model](images/订阅模型.png)
+* 模型
+* API
+    ```
+    publish
+    subscribe
+    unsubcribe
+    ```
+#### Bitmap
+* 位图
+* API
+    ```python
+    setbit key offset value#给定位图设置索引值
+    可用于独立用户统计
+    getbit key offset value
+    bitcount key [start end]
+    bitop op destkey key [key...] #and or
+    type=string max=512
+    ```
+![weitu](images/位图的使用.png)
+
+#### Hyperloglog
+* 新数据结构
+    ```
+    其实是一个算法
+
+    ```
+* 内存消耗
+
+![baiwang](images/内存统计.png)
+
+* 三个命令
+* 使用经验
+
+#### geo
+
+* what is geo
+    ```
+    存储经纬度，计算两地的距离，范围计算
+    ```
+* 经纬度
 
 ### Redis持久化的取舍和选择
 
