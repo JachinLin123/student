@@ -20,6 +20,7 @@ int main(){
             }
         }
         if(j > k){
+            cout << i << endl;
             n++;
         }
     }

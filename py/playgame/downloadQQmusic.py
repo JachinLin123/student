@@ -7,8 +7,8 @@ class QQ_Music():
         self.get_music_url='https://c.y.qq.com/soso/fcgi-bin/client_search_cp?new_json=1&remoteplace=txt.yqq.song&t=0&aggr=1&cr=1&w={}&format=json&platform=yqq.json'
         self.get_song_url='https://u.y.qq.com/cgi-bin/musicu.fcg?data={"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"602087500","songmid":["%s"],"songtype":[0],"uin":"0","loginflag":1,"platform":"20"}},"comm":{"uin":0,"format":"json","ct":24,"cv":0}}'
         self.download_url='http://dl.stream.qqmusic.qq.com/'
-        if not os.path.exists("H:\流行音乐\qqmusic"):
-            os.mkdir('H:\流行音乐\qqmusic')
+        if not os.path.exists("E:\local数据\音乐"):
+            os.mkdir('E:\local数据\音乐')
 
     def parse_url(self,url):
         session = HTMLSession()
