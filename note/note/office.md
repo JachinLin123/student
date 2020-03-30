@@ -1,0 +1,1 @@
+https://www.office.com/launch/onenote?auth=2
